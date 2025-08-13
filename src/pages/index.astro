@@ -1,9 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Greeting from '../components/Greeting';
-const pageTitle = "Home Page";
+import Socials from '../components/Socials';
+import '../styles/index.css';
+const pageTitle = "";
 ---
 <BaseLayout pageTitle={pageTitle}>
-  <h2>My awesome blog subtitle</h2>
-	<Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
+  <div class="w-full flex gap-10">
+    <img id="logo" src="/assets/chaeyeon.png" alt="Chaeyeon" class=" animate-move"/>
+    <div class="flex flex-col items-start">
+      <Greeting client:load />
+      <div class="font-[200] ml-5 my-1">방문해주셔서 감사합니다! <br />이곳은 매일의 배움과 깨달음을 차곡차곡 기록하는 공간입니다.</div>
+      <div>
+        <Socials />
+      </div>
+    </div>
+  </div>
 </BaseLayout>

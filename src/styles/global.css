@@ -5,6 +5,30 @@ html {
   font-family: sans-serif;
 }
 
+html,
+body {
+  cursor: url("/assets/cherry-cursor.png") 16 16, auto;
+}
+
+a,
+img,
+button,
+[role="button"],
+label,
+select,
+summary {
+  cursor: url("/assets/cherry-cursor.png") 16 16, pointer;
+}
+
+a:hover,
+button:hover,
+[role="button"]:hover,
+label:hover,
+select:hover,
+summary:hover {
+  cursor: url("/assets/cherry-cursor.png") 16 16, pointer;
+}
+
 html.dark {
   background-color: #000000;
   color: #fff;
@@ -37,12 +61,11 @@ h1 {
 }
 
 /* nav 스타일 */
-
 .nav-link {
   position: relative;
   display: block;
   text-align: center;
-  padding: 0.3rem 0.8rem;
+  padding: 0.4rem 0.5rem 0.2rem 0.5rem;
   font-size: 1.125rem;
   font-weight: 600;
   text-transform: uppercase;

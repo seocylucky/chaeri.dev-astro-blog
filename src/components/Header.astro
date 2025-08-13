@@ -5,10 +5,18 @@ import Navigation from './Navigation.tsx';
 ---
 
 <header>
-  <nav class='flex gap-10 items-center justify-between'>
+  <nav class='mt-2 mb-12 flex gap-10 items-center justify-between'>
     <Hamburger />
-    <img id="logo" src="/assets/Chae-ri.dev.png" alt="Chae-ri.dev" />
-    <Navigation client:only="js" />
-    <ThemeIcon client:load />
+    <a href="/" class="cursor-pointer">
+      <img
+        id="logo"
+        src="/assets/Chae-ri.dev.png"
+        alt="Chae-ri.dev"
+      />
+    </a>
+    <div class="flex gap-4">
+      <Navigation client:only="js" />
+      <ThemeIcon />
+    </div>
   </nav>
 </header>

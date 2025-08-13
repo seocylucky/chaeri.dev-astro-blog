@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Footer from '../components/Footer';
+import CustomSparkleCursor from '../components/CustomSparkCursor';
 import '../styles/global.css';
 const { pageTitle } = Astro.props;
 ---
@@ -13,9 +14,10 @@ const { pageTitle } = Astro.props;
     <title>{pageTitle}</title>
   </head>
   <body>
+    <CustomSparkleCursor client:load color="random" count={50} hideNativeCursor={false} />
     <Header />
     <h1>{pageTitle}</h1>
-    <slot />
+    <slot/>
     <Footer />
     <script>
       import "../scripts/menu.js";

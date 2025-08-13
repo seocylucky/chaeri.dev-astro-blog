@@ -1,14 +1,14 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 
-import preact from "@astrojs/preact";
+import solid from "@astrojs/solid-js";
 
 import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://chaeri-dev.netlify.app/",
-  integrations: [preact()],
+  integrations: [solid()],
 
   vite: {
     plugins: [tailwindcss()],
