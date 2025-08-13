@@ -43,10 +43,10 @@ export default function Greeting() {
     <div class="mt-20 p-5 text-start text-4xl font-light">
       <div class="mb-2.5">{greeting()}</div>
 
-      <div class="flex align-center">
+      <div class="flex items-center">
         <div
           class={`rounded-xl font-semibold transition-all duration-1000 ${
-            isBlurring() ? "filter blur-lg animate-pulse" : ""
+            isBlurring() ? "blur-lg animate-pulse" : ""
           }`}
           style={{
             animation: isBlurring() ? "colorchange 1s infinite, expandWidth 1s" : "none",
@@ -62,7 +62,7 @@ export default function Greeting() {
         <div class="flex gap-1">
           <div
             class={`rounded-xl font-semibold transition-all duration-1000 ${
-              isBlurring() ? "filter blur-lg animate-pulse" : ""
+              isBlurring() ? "blur-lg animate-pulse" : ""
             }`}
             style={{
               animation: isBlurring() ? "colorchange 1s infinite, expandWidth 1s" : "none",
