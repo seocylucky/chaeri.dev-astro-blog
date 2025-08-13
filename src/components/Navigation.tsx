@@ -4,7 +4,7 @@ const Navigation: Component = () => {
   const currentPath = window.location.pathname;
 
   return (
-    <div class="nav-links flex gap-6">
+    <div class="nav-links flex gap-2">
       <a href="/" class={`nav-link ${currentPath === "/" ? "active" : ""}`}>
         Home
       </a>
