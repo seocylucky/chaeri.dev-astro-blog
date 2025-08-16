@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer class="flex ">
+    <footer class="flex mt-4">
       <div class="relative w-dvw flex-1 p-5 text-center text-sm">
         <p>
           Copyright © 2025{" "}
