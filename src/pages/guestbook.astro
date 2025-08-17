@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Comment from '@/components/Comment';
+
+const pageTitle = "💌";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div>
+    <p class="text-center text-lg mb-4">반가워요:)<br/>자유롭게 한마디 작성해주세요!</p>
+  </div>
+  <Comment client:only="solid-js" />
+</BaseLayout>

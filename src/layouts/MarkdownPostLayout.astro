@@ -1,37 +1,91 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-const { frontmatter } = Astro.props;
----
-<BaseLayout pageTitle={frontmatter.title}>
-  <p>{frontmatter.pubDate.toLocaleDateString()}</p>
-  <p><em>{frontmatter.description}</em></p>
-  <p>Written by: {frontmatter.author}</p>
-  <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
+import BaseLayout from "./BaseLayout.astro";
+import Comment from "@/components/Comment";
+import type { MarkdownHeading } from "astro";
 
-  <div class="tags">
-    {frontmatter.tags.map((tag: string) => (
-      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
-    ))}
+const { frontmatter, headings = [] as MarkdownHeading[] } = Astro.props;
+
+const date = frontmatter.pubDate instanceof Date ? frontmatter.pubDate : new Date(frontmatter.pubDate);
+const formattedDate = new Intl.DateTimeFormat("ko-KR", { dateStyle: "long" }).format(date);
+---
+
+<BaseLayout pageTitle={''}>
+  <div class="md-body">
+    <article id="md-content" class="prose prose-zinc dark:prose-invert max-w-none">
+      <header class="mb-6 border-b border-[#d1d1d1] pb-4 text-black dark:text-white">
+        <div class="flex items-center justify-center gap-2 bg-gray-200 dark:bg-white w-21 h-21 rounded-full">
+          <span class="text-5xl pt-1.5">{frontmatter.imoji}</span>
+        </div>
+
+        {frontmatter.tags?.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-6">
+            {frontmatter.tags.map((tag: string) => (
+              <a class="px-3 py-1 rounded text-sm text-black bg-[#fddaeb] hover:bg-[#F2ACC7] no-underline" href={`/tags/${tag}`}>{tag}</a>
+            ))}
+          </div>
+        )}
+
+        <div class="md-title mt-4 flex justify-center text-4xl font-bold">{frontmatter.title}</div>
+        <div class="mt-3 text-md text-zinc-400">{formattedDate}</div>
+      </header>
+      
+      <slot />
+    </article>
   </div>
 
-  <slot />
+ <aside
+    id="toc-rail"
+    class="hidden lg:block fixed z-30 top-24 w-72 max-h-[calc(100vh-8rem)] overflow-auto px-3"
+    aria-label="목차"
+  >
+    <p class="mb-3 text-md font-medium text-zinc-500">목차</p>
+
+    {headings.length === 0 ? (
+      <></>
+    ) : (
+      <ul class="space-y-1.5 text-sm">
+        {headings
+          .filter((h) => h.depth >= 1 && h.depth <= 3)
+          .map((h) => (
+            <li class={`leading-6 ${h.depth === 3 ? "pl-4" : ""}`}>
+              <a
+                href={`#${h.slug}`}
+                class="block truncate text-zinc-700 hover:underline dark:text-zinc-300 dark:hover:text-white"
+              >
+                {h.text}
+              </a>
+            </li>
+          ))}
+      </ul>
+    )}
+  </aside>
+
+  <Comment client:load />
 </BaseLayout>
-<style>
-  a {
-    color: #00539F;
-  }
 
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-  }
+<script>
+  const content = document.getElementById('md-content');
+  const rail = document.getElementById('toc-rail');
+  if (content && rail) {
+    const GUTTER = 24;
+    const MIN_RIGHT = 16;
 
-  .tag {
-    margin: 0.25em;
-    border: dotted 1px #a1a1a1;
-    border-radius: .5em;
-    padding: .5em 1em;
-    font-size: 1.15em;
-    background-color: #F8FCFD;
+    const place = () => {
+      const rect = content.getBoundingClientRect();
+      let left = rect.right + GUTTER;
+      const maxLeft = window.innerWidth - rail.offsetWidth - MIN_RIGHT;
+      left = Math.min(left, maxLeft);
+      if (left < rect.right) {
+        rail.style.display = 'none';
+      } else {
+        rail.style.display = '';
+        rail.style.left = `${left}px`;
+      }
+    };
+
+    place();
+    window.addEventListener('resize', place);
+    const ro = new ResizeObserver(place);
+    ro.observe(content);
   }
-</style>
+</script>

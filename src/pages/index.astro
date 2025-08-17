@@ -3,11 +3,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Greeting from '../components/Greeting';
 import Socials from '../components/Socials';
 import '../styles/index.css';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import PostItem from '@/components/PostItem';
 const pageTitle = "";
+
+const all = await getCollection("blog");
+const posts: CollectionEntry<"blog">[] =
+  all.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
 ---
 <BaseLayout pageTitle={pageTitle}>
-  <div class="w-full flex gap-10">
-    <img id="logo" src="/assets/chaeyeon.png" alt="Chaeyeon" class=" animate-move"/>
+  <main class="flex-col">
+      <div class="w-full flex gap-10">
+    <img id="logo" src="/assets/chaeyeon.png" alt="Chaeyeon" class="animate-move"/>
     <div class="flex flex-col items-start">
       <Greeting client:load />
       <div class="font-[200] ml-5 my-1">방문해주셔서 감사합니다! <br />이곳은 매일의 배움과 깨달음을 차곡차곡 기록하는 공간입니다.</div>
@@ -16,4 +24,21 @@ const pageTitle = "";
       </div>
     </div>
   </div>
+    <div class="mb-4 mt-12 flex items-end justify-between">
+      <h3 class="recent-title tracking-wide pt-2 pb-1.5 px-4 text-xl rounded-[6px] font-semibold text-white dark:text-gray-600 bg-gray-600 dark:bg-white">Recent posts</h3>
+      <a href="/posts" class="font-mono py-2 px-4 transition-colors text-zinc-400 hover:text-zinc-600 dark:text-zinc-400">
+      more posts..
+      </a>
+    </div>
+    <ul class="flex flex-col gap-1">
+      {posts.map((post) => (
+        <PostItem client:only="solid-js" post={post} />
+      ))}
+      {posts.length === 0 && (
+        <p class="text-zinc-500">
+          아직 작성된 포스트가 없어요.
+        </p>
+      )}
+    </ul>
+  </main>
 </BaseLayout>
