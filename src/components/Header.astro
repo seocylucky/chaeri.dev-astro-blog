@@ -2,7 +2,7 @@
 import { getImage } from 'astro:assets';
 import ThemeIcon from './ThemeIcon.astro';
 import Hamburger from './Hamburger.astro';
-import Navigation from './Navigation.tsx';
+import Navigation from './Navigation.astro';
 
 import logoLight from '@/assets/Chae-ri.dev.png';
 import logoDark  from '@/assets/Chae-ri.dev-white.png';
@@ -34,7 +34,7 @@ const MD2 = await getImage({ src: logoMobileDark,  width: 256, height: 64, forma
 
     <div class="flex items-center gap-3 sm:gap-4">
       <div class="hidden sm:block">
-        <Navigation client:only="js" />
+        <Navigation />
       </div>
       <ThemeIcon />
     </div>

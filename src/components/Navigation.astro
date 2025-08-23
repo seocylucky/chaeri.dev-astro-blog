@@ -1,0 +1,11 @@
+---
+const current = Astro.url.pathname;
+const isPosts = current.startsWith('/posts') || current.startsWith('/tags');
+---
+
+<div class="nav-links flex gap-2">
+  <a href="/" class:list={{ 'nav-link': true, active: current === '/' }} aria-current={current === '/' ? 'page' : undefined}>Home</a>
+  <a href="/about" class:list={{ 'nav-link': true, active: current === '/about' }} aria-current={current === '/about' ? 'page' : undefined}>About</a>
+  <a href="/posts" class:list={{ 'nav-link': true, active: isPosts }} aria-current={isPosts ? 'page' : undefined}>Posts</a>
+  <a href="/guestbook" class:list={{ 'nav-link': true, active: current === '/guestbook' }} aria-current={current === '/guestbook' ? 'page' : undefined}>Guestbook</a>
+</div>
