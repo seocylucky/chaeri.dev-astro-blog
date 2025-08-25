@@ -11,6 +11,8 @@ const pageTitle = "";
 const all = await getCollection("blog");
 const posts: CollectionEntry<"blog">[] =
   all.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
+
+  const { url } = Astro.request;
 ---
 <BaseLayout pageTitle={pageTitle}>
   <main class="flex-col">
@@ -24,6 +26,7 @@ const posts: CollectionEntry<"blog">[] =
       </div>
     </div>
   </div>
+
     <div class="mb-4 mt-12 flex items-end justify-between">
       <h3 class="recent-title tracking-wide pt-2 pb-1.5 px-4 text-xl rounded-[6px] font-semibold text-white dark:text-gray-600 bg-gray-600 dark:bg-white">Recent posts</h3>
       <a href="/posts" class="font-mono py-2 px-4 transition-colors text-zinc-400 hover:text-zinc-600 dark:text-zinc-400">
