@@ -12,5 +12,5 @@
     }
   },
   "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["**/*.cjs", "**/*.js", "**/*.mjs"]
+  "exclude": ["**/*.cjs", "**/*.js", "**/*.mjs", "node_modules"]
 }

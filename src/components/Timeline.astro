@@ -1,0 +1,97 @@
+---
+import type { TimelineItem } from '@/data/activities';
+
+type Props = {
+  title?: string;
+  items: TimelineItem[];
+};
+
+const { title = 'Career', items } = Astro.props as Props;
+
+function formatPeriod(start?: string, end?: string) {
+  const s = start ?? '';
+  const e = end ?? '';
+  if (!s && !e) return '';
+  if (s && e) return `${s} – ${e}`;
+  return s || e;
+}
+---
+<section aria-label={title} class="w-full mt-14">
+  <h2 class="text-center font-semibold text-3xl">{title}</h2>
+
+  <ul role="list" class="relative mt-4 pl-6">
+    {items.map((item, i) => (
+      <li role="listitem" class="relative flex gap-4 py-4">
+        <div
+          class="absolute left-3 top-0 bottom-0 w-px bg-zinc-300 dark:bg-zinc-700"
+          aria-hidden="true"
+        ></div>
+
+        <span
+          class="absolute left-3 top-5 -translate-x-1/2 w-2 h-2 rounded-full bg-white border border-zinc-400 dark:bg-zinc-900"
+          aria-hidden="true"
+        ></span>
+
+        <div
+          class="min-w-[12rem] max-w-[12rem] pl-6 text-zinc-500 dark:text-zinc-400 text-sm
+                 max-md:min-w-0 max-md:max-w-none max-md:pl-8"
+        >
+          <time class="block text-[16px]">{formatPeriod(item.start, item.end)}</time>
+          {item.location && (
+            <span class="mt-1 block">{item.location}</span>
+          )}
+        </div>
+
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-2 leading-tight">
+            <span class="font-semibold text-base">{item.titleEn}</span>
+
+            {item.titleKr && (
+              <span class="text-sm text-zinc-700 dark:text-zinc-400">
+                {item.titleKr}
+              </span>
+            )}
+
+            {item.link && (
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noreferrer"
+                class="pb-0.5 inline-flex items-center text-sm text-zinc-400 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-200"
+                aria-label="외부 링크 열기"
+              >
+                <svg viewBox="0 0 24 24" class="w-4 h-4">
+                  <path fill="currentColor" d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"/>
+                  <path fill="currentColor" d="M5 5h5V3H3v7h2V5z"/>
+                  <path fill="currentColor" d="M19 19h-5v2h7v-7h-2v5z"/>
+                  <path fill="currentColor" d="M5 19v-5H3v7h7v-2H5z"/>
+                </svg>
+              </a>
+            )}
+          </div>
+
+          {item.role && (
+            <div class="mt-0.5 text-sm text-zinc-700 dark:text-zinc-300">{item.role}</div>
+          )}
+
+          {/* {item.description && (
+            <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{item.description}</p>
+          )}
+
+          {item.tags?.length ? (
+            <div class="mt-2 flex flex-wrap gap-1">
+              {item.tags.map((t) => (
+                <span
+                  class="inline-flex items-center rounded-full border px-2 py-0.5 text-xs
+                         border-zinc-300 text-zinc-600 dark:border-zinc-600 dark:text-zinc-300"
+                >
+                  #{t}
+                </span>
+              ))}
+            </div>
+          ) : null} */}
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
