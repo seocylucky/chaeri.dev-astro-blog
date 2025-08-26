@@ -42,6 +42,12 @@ const LinkedinIcon: Component = () => (
   </svg>
 );
 
+const EmailIcon: Component = () => (
+  <svg width="27" height="22" viewBox="0 0 28 23" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.00008 0.333252H22.0001C24.9456 0.333252 27.3334 2.72107 27.3334 5.66658V17.6666C27.3334 20.6121 24.9456 22.9999 22.0001 22.9999H6.00008C3.05456 22.9999 0.666748 20.6121 0.666748 17.6666V5.66658C0.666748 2.72107 3.05456 0.333252 6.00008 0.333252ZM15.8667 13.0666L24.3201 6.79992C24.6973 6.52257 24.7806 5.99303 24.5067 5.61325C24.3762 5.43193 24.1778 5.31119 23.9567 5.27853C23.7357 5.24588 23.5108 5.3041 23.3334 5.43992L14.7867 11.6666C14.5729 11.8907 14.2766 12.0176 13.9667 12.0176C13.6569 12.0176 13.3606 11.8907 13.1467 11.6666L4.66675 5.43992C4.49019 5.30837 4.26844 5.2527 4.05068 5.28524C3.83292 5.31777 3.63714 5.43584 3.50675 5.61325C3.22998 5.98957 3.30723 6.51848 3.68008 6.79992L12.0801 12.9999C12.6028 13.4958 13.293 13.7766 14.0134 13.7866C14.6994 13.7865 15.3606 13.5296 15.8667 13.0666Z" fill="currentColor"/>
+  </svg>
+)
+
 const Socials: Component = () => {
   return (
     <div class="flex gap-3 items-center ml-5 mt-6 text-[#AEAEAE]">
@@ -60,6 +66,15 @@ const Socials: Component = () => {
         class="hover:text-[#F2ACC7] transition-colors"
       >
         <LinkedinIcon />
+      </a>
+      <a
+        href="mailto:seocylucky@gmail.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-[#F2ACC7] transition-colors"
+      
+      >
+        <EmailIcon />
       </a>
     </div>
   );
