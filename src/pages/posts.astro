@@ -10,7 +10,7 @@ const posts: CollectionEntry<"blog">[] =
   all.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const tagSet = new Set<string>();
-for (const p of all) (p.data.tags ?? []).forEach((t) => tagSet.add(t));
+for (const p of all) (p.data.tags ?? []).forEach((t:string) => tagSet.add(t));
 
 const order = ["ALL", "Dev", "회고", "프로젝트", "내 포스트"] as const;
 const displayTags = ["ALL", ...order.slice(1).filter((t) => tagSet.has(t))];

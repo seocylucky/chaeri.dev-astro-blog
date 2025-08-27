@@ -2,18 +2,35 @@
 import BaseLayout from "./BaseLayout.astro";
 import Comment from "@/components/Comment";
 import type { MarkdownHeading } from "astro";
-import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
+
+// 목차 아이템 타입
+type HeadingItem = { slug: string; text: string; depth: number };
 
 const { frontmatter, headings = [] as MarkdownHeading[] } = Astro.props;
 
-const date = frontmatter.pubDate instanceof Date ? frontmatter.pubDate : new Date(frontmatter.pubDate);
-const formattedDate = new Intl.DateTimeFormat("ko-KR", { dateStyle: "long" }).format(date);
+// 👉 headings를 한 번에 우리가 쓰기 좋은 타입으로 단언
+const heads = headings as unknown as HeadingItem[];
 
-const all = await getCollection('blog');
-const posts = all.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// 날짜 포맷
+const date =
+  frontmatter.pubDate instanceof Date
+    ? frontmatter.pubDate
+    : new Date(frontmatter.pubDate);
+const formattedDate = new Intl.DateTimeFormat("ko-KR", {
+  dateStyle: "long",
+}).format(date);
 
-const curPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/';
-const idx = posts.findIndex(p => `/posts/${p.slug}/` === curPath);
+// 이전/다음 글 계산
+const all = await getCollection("blog");
+const posts = all.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const curPath = Astro.url.pathname.endsWith("/")
+  ? Astro.url.pathname
+  : Astro.url.pathname + "/";
+const idx = posts.findIndex((p) => `/posts/${p.slug}/` === curPath);
 
 const prev = idx >= 0 ? posts[idx + 1] : undefined;
 const next = idx >= 0 ? posts[idx - 1] : undefined;
@@ -30,66 +47,68 @@ const next = idx >= 0 ? posts[idx - 1] : undefined;
         {frontmatter.tags?.length > 0 && (
           <div class="flex flex-wrap gap-2 mt-6">
             {frontmatter.tags.map((tag: string) => (
-              <a class="px-3 py-1 rounded text-sm text-black bg-[#fddaeb] hover:bg-[#F2ACC7] no-underline" href={`/tags/${tag}`}>{tag}</a>
+              <a
+                class="px-3 py-1 rounded text-sm text-black bg-[#fddaeb] hover:bg-[#F2ACC7] no-underline"
+                href={`/tags/${tag}`}
+              >
+                {tag}
+              </a>
             ))}
           </div>
         )}
 
-        <div class="md-title mt-4 flex justify-start text-3xl sm:text-4xl font-bold">{frontmatter.title}</div>
+        <div class="md-title mt-4 flex justify-start text-3xl sm:text-4xl font-bold">
+          {frontmatter.title}
+        </div>
         <div class="mt-3 text-md text-zinc-400">{formattedDate}</div>
       </header>
-      
+
       <slot />
 
       {(prev || next) && (
         <nav aria-label="이전/다음 글" class="mt-10">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {prev ?
-            <a
-              href={prev ? `/posts/${prev.slug}/` : undefined}
-              class={`block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300
-                    ${prev ? 'hover:-translate-y-0.5 hover:shadow-md' : 'pointer-events-none opacity-50'}`}
-            >
-              <div class="text-md text-zinc-400 mb-2">이전 글</div>
-              <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
-                {prev.data.title}
-              </div>
-            </a>
-            :
-            <div></div>}
+            {prev && (
+              <a
+                href={`/posts/${prev.slug}/`}
+                class="block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div class="text-md text-zinc-400 mb-2">이전 글</div>
+                <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
+                  {prev.data.title}
+                </div>
+              </a>
+            )}
 
-            {next ? 
-            <a
-              href={next ? `/posts/${next.slug}/` : undefined}
-              class={`block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300
-                    ${next ? 'hover:-translate-y-0.5 hover:shadow-md' : 'pointer-events-none opacity-50'}`}
-            >
-              <div class="text-md text-zinc-400 mb-2 text-right sm:text-left">다음 글</div>
-              <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
-                {next.data.title}
-              </div>
-            </a>
-            :
-            <div></div>
-            }
+            {next && (
+              <a
+                href={`/posts/${next.slug}/`}
+                class="block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div class="text-md text-zinc-400 mb-2 text-right sm:text-left">다음 글</div>
+                <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
+                  {next.data.title}
+                </div>
+              </a>
+            )}
           </div>
         </nav>
       )}
     </article>
   </div>
 
- <aside
+  <aside
     id="toc-rail"
     class="hidden lg:block fixed z-30 top-24 w-72 max-h-[calc(100vh-8rem)] overflow-auto px-3"
     aria-label="목차"
   >
     <p class="mb-3 text-md font-medium text-zinc-500">목차</p>
 
-    {headings.length === 0 ? (
+    {heads.length === 0 ? (
       <></>
     ) : (
       <ul class="space-y-1.5 text-sm">
-        {headings
+        {heads
           .filter((h) => h.depth >= 1 && h.depth <= 3)
           .map((h) => (
             <li class={`leading-6 ${h.depth === 3 ? "pl-4" : ""}`}>
