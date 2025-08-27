@@ -2,12 +2,12 @@
   id="themeToggle"
   class="relative inline-flex items-center justify-center w-14 h-8 bg-[#FFD1E7] rounded-full transition-all duration-300 ease-in-out"
 >
-  <svg class="sun absolute left-2 w-5 h-5 opacity-100 z-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg class="sun absolute left-2 w-5 h-5 opacity-100 z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M12 17.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1.5a7 7 0 1 0 0-14 7 7 0 0 0 0 14zm12-7a.8.8 0 0 1-.8.8h-2.4a.8.8 0 0 1 0-1.6h2.4a.8.8 0 0 1 .8.8zM4 12a.8.8 0 0 1-.8.8H.8a.8.8 0 0 1 0-1.6h2.5a.8.8 0 0 1 .8.8zm16.5-8.5a.8.8 0 0 1 0 1l-1.8 1.8a.8.8 0 0 1-1-1l1.7-1.8a.8.8 0 0 1 1 0zM6.3 17.7a.8.8 0 0 1 0 1l-1.7 1.8a.8.8 0 1 1-1-1l1.7-1.8a.8.8 0 0 1 1 0zM12 0a.8.8 0 0 1 .8.8v2.5a.8.8 0 0 1-1.6 0V.8A.8.8 0 0 1 12 0zm0 20a.8.8 0 0 1 .8.8v2.4a.8.8 0 0 1-1.6 0v-2.4a.8.8 0 0 1 .8-.8zM3.5 3.5a.8.8 0 0 1 1 0l1.8 1.8a.8.8 0 1 1-1 1L3.5 4.6a.8.8 0 0 1 0-1zm14.2 14.2a.8.8 0 0 1 1 0l1.8 1.7a.8.8 0 0 1-1 1l-1.8-1.7a.8.8 0 0 1 0-1z"/>
   </svg>
 
 <svg
-    class="moon absolute top-2 right-1 w-5 h-5 opacity-0 z-2"
+    class="moon absolute top-2 right-1 w-5 h-5 opacity-0 z-10"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -25,54 +25,24 @@
     </svg>
   </svg>
 
-  <span class="circle mr-5 w-6.5 h-6.5 bg-white rounded-full transition-all duration-300 ease-in-out"></span>
+  <span class="circle mr-5 w-[26px] h-[26px] bg-white rounded-full transition-all duration-300 ease-in-out"></span>
 </button>
 
 <style>
-  :global(.dark) #themeToggle .sun {
-    opacity: 0;
-  }
-
-  :global(.dark) #themeToggle .moon {
-    opacity: 1;
-  }
-
-  :global(.dark) #themeToggle .circle {
-    transform: translateX(85%);
-  }
-
-  :global(.dark) #themeToggle {
-    background-color: #ffffff;
-  }
-
-  :global(.dark) #themeToggle .circle {
-    background-color: #000000;
-  }
+  html.dark #themeToggle .sun { opacity: 0; }
+  html.dark #themeToggle .moon { opacity: 1; }
+  html.dark #themeToggle { background-color: #ffffff; }
+  html.dark #themeToggle .circle { transform: translateX(85%); background-color: #000; }
 </style>
 
+
 <script is:inline>
-  document.addEventListener("DOMContentLoaded", () => {
-    const theme = localStorage.getItem("theme") || "light";
-    const logoImg = document.getElementById("logo");
-
-    if (theme === "dark") {
-      logoImg.src = "/assets/Chae-ri.dev-white.png";
-      document.documentElement.classList.add("dark");
-    } else {
-      logoImg.src = "/assets/Chae-ri.dev.png";
-    }
-
-    const themeToggle = document.getElementById("themeToggle");
-
-    if (themeToggle) {
-      themeToggle.addEventListener("click", () => {
-        const isDarkTheme = document.documentElement.classList.contains("dark");
-        const newTheme = isDarkTheme ? "light" : "dark";
-        localStorage.setItem("theme", newTheme);
-        document.documentElement.classList.toggle("dark", !isDarkTheme);
-
-        logoImg.src = newTheme === "dark" ? "/assets/Chae-ri.dev-white.png" : "/assets/Chae-ri.dev.png";
-      });
-    }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#themeToggle');
+    if (!btn) return;
+    const root = document.documentElement;
+    const next = !root.classList.contains('dark');
+    root.classList.toggle('dark', next);
+    try { localStorage.setItem('theme', next ? 'dark' : 'light'); } catch (_) {}
   });
 </script>
