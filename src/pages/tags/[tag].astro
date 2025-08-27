@@ -2,7 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Card from "@/components/Card";
 import { getCollection, type CollectionEntry } from "astro:content";
-import Tags from "@/components/Tags";
+import TagNav from "@/components/TagNav.astro";
 
 export async function getStaticPaths() {
   const all = await getCollection("blog");
@@ -35,11 +35,7 @@ const pageTitle = `${tag}`;
 <BaseLayout pageTitle={`${tag}`}>
   <span class="flex text-[14px] justify-center text-zinc-500">{posts.length}개의 글</span>
 
-    <nav class="mt-3 mb-6 flex flex-wrap gap-2 justify-center">
-    {displayTags.map((t) => (
-      <Tags tag={t} pageTitle={pageTitle} />
-    ))}
-  </nav>
+  <TagNav displayTags={displayTags} pageTitle={pageTitle} />
 
   <ul class="flex flex-col gap-3">
     {posts.map((post) => (
