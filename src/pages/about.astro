@@ -3,21 +3,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Greeting from '../components/Greeting';
 import Socials from '../components/Socials';
 import Timeline from '../components/Timeline.astro';
+import chaeyeonPng from '@/assets/chaeyeon.png';
+import BlurImage from '@/components/BlurImage.astro';
 import '../styles/index.css';
 
 import { activities, awards } from '@/data/activities';
 ---
 <BaseLayout>
-  <div class="w-full flex gap-10">
-    <img id="logo" src="/assets/chaeyeon.png" alt="Chaeyeon" class="animate-move"/>
-    <div class="flex flex-col items-start">
-      <Greeting client:load />
-      <div class="font-[200] ml-5 my-1">방문해주셔서 감사합니다! <br />이곳은 매일의 배움과 깨달음을 차곡차곡 기록하는 공간입니다.</div>
-      <div>
-        <Socials />
-      </div>
+  <div class=" w-full overflow-hidden">
+  <div class="flex flex-row sm:flex-row items-center sm:items-start sm:gap-10">
+
+    <BlurImage
+      src={chaeyeonPng}
+      width={235}
+      height={345}
+      alt="Chaeyeon"
+      priority={true}
+      format="png"
+      sizes="(min-width: 768px) 235px, (min-width: 640px) 200px, 160px"
+      class="hidden sm:block pointer-events-none select-none sm:static sm:z-0 sm:w-[200px] md:w-[235px] animate-move"
+    />
+
+    <div class="flex flex-col gap-2 items-start text-center sm:text-left">
+      <Greeting client:load class="text-[28px] sm:text-3xl md:text-4xl font-bold text-nowrap" />
+      <p class="font-[200] my-1 text-start sm:ml-5 leading-relaxed text-[13px] sm:text-[15px] d:text-lg">
+        방문해주셔서 감사합니다!
+        <br />
+        이곳은 매일의 배움과 깨달음을 차곡차곡 기록하는 공간입니다.
+      </p>
+      <div class="sm:mt-2"><Socials /></div>
     </div>
+
   </div>
+</div>
 
   <Timeline title="Activity" items={activities} />
   <Timeline title="Awards" items={awards} />

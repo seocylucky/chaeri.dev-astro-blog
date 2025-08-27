@@ -1,0 +1,61 @@
+---
+import { getImage } from "astro:assets";
+
+interface Props {
+  src: ImageMetadata;
+  width: number;         
+  height: number;        
+  alt: string;
+  priority?: boolean;
+  class?: string;        
+  format?: "png" | "webp";
+  sizes?: string;       
+}
+
+const fmt = Astro.props.format ?? "png";
+const w = Astro.props.width, h = Astro.props.height;
+
+const s1 = (await getImage({ src: Astro.props.src, width: w,   height: h,   format: fmt })).src;
+const s2 = (await getImage({ src: Astro.props.src, width: w*2, height: h*2, format: fmt })).src;
+const s3 = (await getImage({ src: Astro.props.src, width: w*3, height: h*3, format: fmt })).src;
+
+const priority = Astro.props.priority ?? false;
+const loading = priority ? "eager" : "lazy";
+const fetchpriority = priority ? "high" : "auto";
+
+const sizesAttr = Astro.props.sizes ?? "(min-width: 768px) 235px, (min-width: 640px) 200px, 160px";
+---
+
+{priority && <link rel="preload" as="image" href={s1} type={`image/${fmt}`} />}
+
+<div
+  class={`relative overflow-hidden rounded-xl ${Astro.props.class ?? ""}`}
+  style={`aspect-ratio:${w}/${h};`}  
+>
+  <img
+    src={s1}
+    srcset={`${s1} 1x, ${s2} 2x, ${s3} 3x`}
+    sizes={sizesAttr}
+    alt={Astro.props.alt}
+    loading={loading}
+    decoding="async"
+    fetchpriority={fetchpriority}
+    class="w-full h-auto object-contain blur-md opacity-0 transition duration-300"
+  />
+</div>
+
+<script is:inline>
+  (function () {
+    document.querySelectorAll('img.blur-md.opacity-0').forEach((img) => {
+      const unveil = () => {
+        img.classList.remove('blur-md', 'opacity-0');
+        img.classList.add('blur-0', 'opacity-100');
+      };
+      if (img.complete) unveil();
+      else {
+        img.addEventListener('load', unveil, { once: true });
+        img.addEventListener('error', unveil, { once: true });
+      }
+    });
+  })();
+</script>
