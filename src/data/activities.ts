@@ -14,7 +14,7 @@ export const activities: TimelineItem[] = [
   {
     start: '2025.07',
     end: 'now',
-    titleEn: '2025 Open Source Contribution Academy',
+    titleEn: '2025 OSSCA',
     titleKr: '오픈소스 컨트리뷰션 아카데미',
     role: '(참여형) Githru-vscode-ext Mentee',
     link: 'https://github.com/githru/githru-vscode-ext',
