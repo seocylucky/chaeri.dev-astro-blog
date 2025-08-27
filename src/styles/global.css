@@ -1,9 +1,10 @@
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html {
   background-color: #ffffff;
-  font-family: sans-serif;
+  font-family: 'Pretendard Variable', sans-serif;
 }
 
 html,
@@ -78,9 +79,9 @@ body {
   position: relative;
   display: block;
   text-align: center;
-  padding: 0.4rem 0.5rem 0.2rem 0.5rem;
+  padding: 0.4rem 0.5rem 0.4rem 0.5rem;
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
   color: #000000;
   overflow: hidden;
