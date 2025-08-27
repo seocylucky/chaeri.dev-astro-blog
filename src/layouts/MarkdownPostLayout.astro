@@ -2,19 +2,29 @@
 import BaseLayout from "./BaseLayout.astro";
 import Comment from "@/components/Comment";
 import type { MarkdownHeading } from "astro";
+import { getCollection } from 'astro:content';
 
 const { frontmatter, headings = [] as MarkdownHeading[] } = Astro.props;
 
 const date = frontmatter.pubDate instanceof Date ? frontmatter.pubDate : new Date(frontmatter.pubDate);
 const formattedDate = new Intl.DateTimeFormat("ko-KR", { dateStyle: "long" }).format(date);
+
+const all = await getCollection('blog');
+const posts = all.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const curPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/';
+const idx = posts.findIndex(p => `/posts/${p.slug}/` === curPath);
+
+const prev = idx >= 0 ? posts[idx + 1] : undefined;
+const next = idx >= 0 ? posts[idx - 1] : undefined;
 ---
 
 <BaseLayout pageTitle={''}>
-  <div class="md-body">
+  <div class="md-body px-2">
     <article id="md-content" class="prose prose-zinc dark:prose-invert max-w-none">
       <header class="mb-6 border-b border-[#d1d1d1] pb-4 text-black dark:text-white">
-        <div class="flex items-center justify-center gap-2 bg-gray-200 dark:bg-white w-21 h-21 rounded-full">
-          <span class="text-5xl pt-1.5">{frontmatter.imoji}</span>
+        <div class="flex items-center justify-center gap-2 bg-gray-200 dark:bg-white w-[64px] h-[64px] sm:w-[84px] sm:h-[84px] rounded-full">
+          <span class="text-4xl sm:text-5xl pt-1.5">{frontmatter.imoji}</span>
         </div>
 
         {frontmatter.tags?.length > 0 && (
@@ -25,11 +35,46 @@ const formattedDate = new Intl.DateTimeFormat("ko-KR", { dateStyle: "long" }).fo
           </div>
         )}
 
-        <div class="md-title mt-4 flex justify-center text-4xl font-bold">{frontmatter.title}</div>
+        <div class="md-title mt-4 flex justify-start text-3xl sm:text-4xl font-bold">{frontmatter.title}</div>
         <div class="mt-3 text-md text-zinc-400">{formattedDate}</div>
       </header>
       
       <slot />
+
+      {(prev || next) && (
+        <nav aria-label="이전/다음 글" class="mt-10">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {prev ?
+            <a
+              href={prev ? `/posts/${prev.slug}/` : undefined}
+              class={`block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300
+                    ${prev ? 'hover:-translate-y-0.5 hover:shadow-md' : 'pointer-events-none opacity-50'}`}
+            >
+              <div class="text-md text-zinc-400 mb-2">이전 글</div>
+              <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
+                {prev.data.title}
+              </div>
+            </a>
+            :
+            <div></div>}
+
+            {next ? 
+            <a
+              href={next ? `/posts/${next.slug}/` : undefined}
+              class={`block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300
+                    ${next ? 'hover:-translate-y-0.5 hover:shadow-md' : 'pointer-events-none opacity-50'}`}
+            >
+              <div class="text-md text-zinc-400 mb-2 text-right sm:text-left">다음 글</div>
+              <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
+                {next.data.title}
+              </div>
+            </a>
+            :
+            <div></div>
+            }
+          </div>
+        </nav>
+      )}
     </article>
   </div>
 
