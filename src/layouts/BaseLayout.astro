@@ -15,6 +15,24 @@ const { pageTitle } = Astro.props as {
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+
+    <script is:inline>
+      (function () {
+        try {
+          var s = localStorage.getItem('theme');
+          var dark = s ? (s === 'dark') : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', dark);
+
+          var link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.type = 'image/webp';
+          link.href = dark ? '${D1.src}' : '${L1.src}';
+          document.head.appendChild(link);
+        } catch (_) {}
+      })();
+    </script>
+
   </head>
   <body>
     <CustomSparkleCursor client:load color="random" count={50} hideNativeCursor={false} />
@@ -27,6 +45,5 @@ const { pageTitle } = Astro.props as {
     </main>
 
     <Footer />
-    <script type="module" src="/scripts/menu.js"></script>
   </body>
 </html>
