@@ -1,22 +1,60 @@
 ---
+import { getImage } from 'astro:assets';
 import ThemeIcon from './ThemeIcon.astro';
 import Hamburger from './Hamburger.astro';
 import Navigation from './Navigation.tsx';
----
 
-<header>
-  <nav class='mt-2 mb-12 flex gap-10 items-center justify-between'>
-    <Hamburger />
-    <a href="/" class="cursor-pointer">
-      <img
-        id="logo"
-        src="/assets/Chae-ri.dev.png"
-        alt="Chae-ri.dev"
-      />
-    </a>
-    <div class="flex gap-4">
-      <Navigation client:only="js" />
+import logoLight from '@/assets/Chae-ri.dev.png';
+import logoDark  from '@/assets/Chae-ri.dev-white.png';
+import logoMobileLight from '@/assets/cherry.png';
+import logoMobileDark  from '@/assets/cherry.png';
+
+const L1 = await getImage({ src: logoLight, width: 160, height: 40, format: 'webp', quality: 82 });
+const L2 = await getImage({ src: logoLight, width: 320, height: 80,  format: 'webp', quality: 82 });
+const D1 = await getImage({ src: logoDark,  width: 160, height: 40, format: 'webp', quality: 82 });
+const D2 = await getImage({ src: logoDark,  width: 320, height: 80,  format: 'webp', quality: 82 });
+const ML1 = await getImage({ src: logoMobileLight, width: 128, height: 32, format: 'webp', quality: 82 });
+const ML2 = await getImage({ src: logoMobileLight, width: 256, height: 64, format: 'webp', quality: 82 });
+const MD1 = await getImage({ src: logoMobileDark,  width: 128, height: 32, format: 'webp', quality: 82 });
+const MD2 = await getImage({ src: logoMobileDark,  width: 256, height: 64, format: 'webp', quality: 82 });
+---
+<header class="w-full">
+  <nav class="mt-2 mb-8 flex items-center justify-between gap-3 sm:gap-6 lg:gap-10 px-4 sm:px-6 lg:px-8">
+    <div class="sm:hidden">
+      <Hamburger />
+    </div>
+
+    <a
+      href="/"
+      class="logo block shrink-0 w-[128px] h-8 sm:w-[160px] sm:h-10"
+      aria-label="Chae-ri.dev"
+      style={`--l1:url(${L1.src});--l2:url(${L2.src});--d1:url(${D1.src});--d2:url(${D2.src});
+              --ml1:url(${ML1.src});--ml2:url(${ML2.src});--md1:url(${MD1.src});--md2:url(${MD2.src});`}
+    ></a>
+
+    <div class="flex items-center gap-3 sm:gap-4">
+      <div class="hidden sm:block">
+        <Navigation client:only="js" />
+      </div>
       <ThemeIcon />
     </div>
   </nav>
 </header>
+
+<style is:global>
+  .logo{
+    background-repeat:no-repeat; background-position:center; background-size:contain;
+    background-image: image-set(var(--l1) type("image/webp") 1x, var(--l2) type("image/webp") 2x);
+  }
+  html.dark .logo{
+    background-image: image-set(var(--d1) type("image/webp") 1x, var(--d2) type("image/webp") 2x);
+  }
+  @media (max-width: 375px){
+    .logo{
+      background-image: image-set(var(--ml1) type("image/webp") 1x, var(--ml2) type("image/webp") 2x);
+    }
+    html.dark .logo{
+      background-image: image-set(var(--md1) type("image/webp") 1x, var(--md2) type("image/webp") 2x);
+    }
+  }
+</style>
