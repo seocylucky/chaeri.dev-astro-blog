@@ -1,4 +1,6 @@
-export default {
+module.exports = {
+  darkMode: 'class',
   content: ["./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}"],
-  plugins: [require("@tailwindcss/typography")],
+  theme: { extend: {} },
+  plugins: [require("@tailwindcss/typography"), require('tailwind-scrollbar-hide')],
 };
