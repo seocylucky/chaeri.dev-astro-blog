@@ -50,7 +50,7 @@ const EmailIcon: Component = () => (
 
 const Socials: Component = () => {
   return (
-    <div class="flex gap-3 items-center ml-5 mt-6 text-[#AEAEAE]">
+    <div class="flex gap-4 items-center ml-2 mt-3 sm:ml-5 sm:mt-6 text-[#AEAEAE]">
       <a
         href="https://github.com/seocylucky"
         target="_blank"

@@ -19,7 +19,7 @@ const Card: Component<Props> = (props) => {
         props.class ?? "",
       ].join(" ")}
     >
-      <div class="w-40 h-24 rounded-xl overflow-hidden shrink-0 bg-[#FFD1E7]" aria-hidden="true">
+      <div class="hidden sm:block sm:w-40 sm:h-24 rounded-xl overflow-hidden shrink-0 bg-[#FFD1E7]" aria-hidden="true">
         {meta ? (
           <img
             src={meta.src}

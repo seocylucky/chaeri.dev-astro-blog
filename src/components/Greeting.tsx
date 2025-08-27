@@ -1,9 +1,13 @@
-import { createSignal, onCleanup } from "solid-js";
+import { createSignal, onCleanup, type Component } from "solid-js";
+
+type Props = {
+  class?: string;
+};
 
 const techStack = ['"Frontend"', '"TypeScript"', '"React"', '"JavaScript"'];
 const nameVariants = ["서채연", "🍒", "채리"];
 
-export default function Greeting() {
+const Greeting: Component<Props> = (props) => {
   const [greeting, setGreeting] = createSignal("안녕하세요:)");
   const [tech, setTech] = createSignal(techStack[0]);
   const [name, setName] = createSignal(nameVariants[0]);
@@ -40,7 +44,7 @@ export default function Greeting() {
   });
 
   return (
-    <div class="mt-20 p-5 text-start text-4xl font-light">
+    <div class={`mt-20 sm:p-5 text-start font-light ${props.class ?? ""}`}>
       <div class="mb-2.5">{greeting()}</div>
 
       <div class="flex items-center">
@@ -76,3 +80,5 @@ export default function Greeting() {
     </div>
   );
 }
+
+export default Greeting;
