@@ -12,7 +12,7 @@ const posts: CollectionEntry<"blog">[] =
 const tagSet = new Set<string>();
 for (const p of all) (p.data.tags ?? []).forEach((t:string) => tagSet.add(t));
 
-const order = ["ALL", "Dev", "회고", "프로젝트", "내 포스트"] as const;
+const order = ["ALL", "Dev", "Frontend", "회고", "프로젝트"] as const;
 const displayTags = ["ALL", ...order.slice(1).filter((t) => tagSet.has(t))];
 
 const pageTitle = "ALL";
