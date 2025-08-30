@@ -38,8 +38,8 @@ const pageTitle = `${tag}`;
   <TagNav displayTags={displayTags} pageTitle={pageTitle} />
 
   <ul class="flex flex-col gap-3">
-    {posts.map((post) => (
-      <Card client:only="solid-js" post={post} />
+    {posts.map((post, i) => (
+      <Card client:visible post={post} priority={i < 3} />
     ))}
   </ul>
 </BaseLayout>

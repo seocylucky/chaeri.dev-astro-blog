@@ -28,9 +28,9 @@ const pageTitle = "ALL";
     </p>
   )}
 
-  <ul class="flex flex-col gap-3">
-    {posts.map((post) => (
-      <Card client:only="solid-js" post={post} />
+  <ul>
+    {posts.map((post, i) => (
+      <Card client:visible post={post} priority={i < 3} />
     ))}
   </ul>
 </BaseLayout>
