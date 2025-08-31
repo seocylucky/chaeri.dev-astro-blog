@@ -23,13 +23,19 @@ const posts = all.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
+const normRoute = (pSlug: string) => `/posts/${pSlug.split('/')[0]}/`;
+
 const curPath = Astro.url.pathname.endsWith("/")
   ? Astro.url.pathname
   : Astro.url.pathname + "/";
-const idx = posts.findIndex((p) => `/posts/${p.slug}/` === curPath);
 
-const prev = idx >= 0 ? posts[idx + 1] : undefined;
-const next = idx >= 0 ? posts[idx - 1] : undefined;
+const curRoute = `/posts/${curPath.split('/')[2] ?? ''}/`;
+const routes = posts.map((p) => normRoute(p.slug));
+const idx = routes.indexOf(curRoute);
+
+const prev = idx >= 0 && idx + 1 < posts.length ? posts[idx + 1] : undefined;
+const next = idx > 0 ? posts[idx - 1] : undefined;
+
 ---
 
 <BaseLayout pageTitle={''}>
@@ -64,38 +70,47 @@ const next = idx >= 0 ? posts[idx - 1] : undefined;
       {(prev || next) && (
         <nav aria-label="이전/다음 글" class="mt-16">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {prev && (
-              <a
-                href={`/posts/${prev.slug}/`}
-                class="block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-              >
-                <div class="text-md text-zinc-400 mb-2">이전 글</div>
-                <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
-                  {prev.data.title}
-                </div>
-              </a>
-            )}
+            <div>
+              {prev ? (
+                <a
+                  href={`/posts/${prev.slug.split('/')[1]}/`}
+                  class="block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div class="text-md text-zinc-400 mb-2">이전 글</div>
+                  <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
+                    {prev.data.title}
+                  </div>
+                </a>
+              ) : (
+                <div></div>
+              )}
+            </div>
 
-            {next && (
-              <a
-                href={`/posts/${next.slug}/`}
-                class="block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-              >
-                <div class="text-md text-zinc-400 mb-2 text-right sm:text-left">다음 글</div>
-                <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
-                  {next.data.title}
-                </div>
-              </a>
-            )}
+            <div>
+              {next ? (
+                <a
+                  href={`/posts/${next.slug.split('/')[1]}/`}
+                  class="block rounded-2xl bg-gray-100 dark:bg-zinc-400/30 no-underline py-8 px-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div class="text-md text-zinc-400 mb-2 text-right sm:text-left">다음 글</div>
+                  <div class="text-xl font-semibold text-zinc-900 dark:text-zinc-100 line-clamp-2">
+                    {next.data.title}
+                  </div>
+                </a>
+              ) : (
+                <div></div>
+              )}
+            </div>
           </div>
         </nav>
       )}
+
     </article>
   </div>
 
   <aside
     id="toc-rail"
-    class="hidden lg:block fixed z-30 top-24 w-72 max-h-[calc(100vh-8rem)] overflow-auto px-3"
+    class="ml-10 hidden lg:block fixed z-30 top-24 w-72 max-h-[calc(100vh-8rem)] overflow-auto px-3"
     aria-label="목차"
   >
     <p class="mb-3 text-md font-medium text-zinc-500">목차</p>
@@ -110,7 +125,7 @@ const next = idx >= 0 ? posts[idx - 1] : undefined;
             <li class={`leading-6 ${h.depth === 3 ? "pl-4" : ""}`}>
               <a
                 href={`#${h.slug}`}
-                class="block truncate text-zinc-700 hover:underline dark:text-zinc-300 dark:hover:text-white"
+                class="block text-wrap text-zinc-700 hover:underline dark:text-zinc-300 dark:hover:text-white"
               >
                 {h.text}
               </a>
