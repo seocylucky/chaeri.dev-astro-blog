@@ -16,6 +16,17 @@ const { pageTitle } = Astro.props as {
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-113EK04J9W"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ window.dataLayer.push(arguments); }
+      window.gtag = gtag;
+
+      gtag('js', new Date());
+      gtag('config', 'G-113EK04J9W');
+    </script>
+
     <script is:inline>
       (function () {
         try {
@@ -27,7 +38,6 @@ const { pageTitle } = Astro.props as {
           link.rel = 'preload';
           link.as = 'image';
           link.type = 'image/webp';
-          link.href = dark ? '${D1.src}' : '${L1.src}';
           document.head.appendChild(link);
         } catch (_) {}
       })();
