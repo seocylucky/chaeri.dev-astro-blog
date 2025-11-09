@@ -163,4 +163,29 @@ const next = idx > 0 ? posts[idx - 1] : undefined;
     const ro = new ResizeObserver(place);
     ro.observe(content);
   }
+
+    // 링크 디코딩(한글 표시용)
+  (() => {
+    const scope = document.getElementById('md-content');
+    if (!scope) return;
+
+    for (const a of scope.querySelectorAll('a[href]')) {
+      const href = a.getAttribute('href') ?? '';
+      const current = (a.textContent ?? '').trim();
+
+      if (current === href) {
+        try {
+          const decodedWhole = decodeURI(href);
+          a.textContent = decodedWhole;
+        } catch (_) {
+          try {
+            const u = new URL(href, location.origin);
+            const decodedPath = decodeURI(u.pathname);
+            const rebuilt = decodedPath + (u.search || '') + (u.hash || '');
+            a.textContent = rebuilt;
+          } catch {}
+        }
+      }
+    }
+  })();
 </script>
