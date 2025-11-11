@@ -5,7 +5,7 @@ import tailwind from "@astrojs/tailwind";
 import remarkToc from "remark-toc";
 
 export default defineConfig({
-  site: "https://chaeri-dev.netlify.app/",
+  site: "https://chaeri.dev",
   trailingSlash: "ignore",
   integrations: [
     solid(),
