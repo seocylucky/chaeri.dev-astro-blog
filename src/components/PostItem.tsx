@@ -6,6 +6,13 @@ type Props = {
   class?: string;
 };
 
+const formatYMD = (d: Date) => {
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}/${mm}/${dd}`;
+  };
+
 const PostItem: Component<Props> = (props) => {
   const { post } = props;
   return (
@@ -22,7 +29,7 @@ const PostItem: Component<Props> = (props) => {
       <li class={`flex items-center w-[82%] sm:[88%] ${props.class} text-[20px] overflow-hidden shrink-0`}>
         <div class="text-[18px] text-wrap sm:text-nowrap sm:text-xl line-clamp-2 truncate">{post.data.title}</div>
         <span class="ml-4 text-sm text-zinc-400 shrink-0">
-          {post.data.pubDate.toLocaleDateString()}
+          {formatYMD(new Date(post.data.pubDate))}
         </span>
       </li>
     </a>
