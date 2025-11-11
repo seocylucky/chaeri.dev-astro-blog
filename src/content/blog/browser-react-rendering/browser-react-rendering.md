@@ -6,7 +6,7 @@ description: "기술세미나로 리액트 렌더링 최적화라는 주제에 �
 image:
   url: "./browser-rendering.png"
   alt: "브라우저 렌더링 과정"
-pubDate: 2022-08-08
+pubDate: 2025-02-09
 tags: ["Dev", "Frontend"]
 ---
 
