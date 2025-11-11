@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@astrojs/rss':
-        specifier: ^4.0.12
-        version: 4.0.12
       '@astrojs/solid-js':
         specifier: ^5.1.0
         version: 5.1.0(@types/node@24.0.10)(jiti@2.5.1)(lightningcss@1.30.1)(solid-js@1.9.8)(yaml@2.8.1)
@@ -30,6 +27,9 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(tailwindcss@3.4.17)
     devDependencies:
+      '@astrojs/rss':
+        specifier: ^4.0.13
+        version: 4.0.13
       '@astrojs/tailwind':
         specifier: ^6.0.2
         version: 6.0.2(astro@5.13.3(@types/node@24.0.10)(jiti@2.5.1)(lightningcss@1.30.1)(rollup@4.44.2)(typescript@5.8.3)(yaml@2.8.1))(tailwindcss@3.4.17)
@@ -72,8 +72,8 @@ packages:
     resolution: {integrity: sha512-q8VwfU/fDZNoDOf+r7jUnMC2//H2l0TuQ6FkGJL8vD8nw/q5KiL3DS1KKBI3QhI9UQhpJ5dc7AtqfbXWuOgLCQ==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0}
 
-  '@astrojs/rss@4.0.12':
-    resolution: {integrity: sha512-O5yyxHuDVb6DQ6VLOrbUVFSm+NpObulPxjs6XT9q3tC+RoKbN4HXMZLpv0LvXd1qdAjzVgJ1NFD+zKHJNDXikw==}
+  '@astrojs/rss@4.0.13':
+    resolution: {integrity: sha512-ugW4DmGn8kgfl8/qecU3EcKCAuEBrZqY7eYfa6at0sY7HGEwRdzsOafLE437RwDMP2ZuxfKnCNABs99YVhX0kg==}
 
   '@astrojs/solid-js@5.1.0':
     resolution: {integrity: sha512-VmPHOU9k7m6HHCT2Y1mNzifilUnttlowBM36frGcfj5wERJE9Ci0QtWJbzdf6AlcoIirb7xVw+ByupU011Di9w==}
@@ -1255,8 +1255,8 @@ packages:
   fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  fast-xml-parser@5.2.5:
-    resolution: {integrity: sha512-pfX9uG9Ki0yekDHx2SiuRIyFdyAr1kMIMitPvb0YBo8SUfKvia7w7FIyd/l6av85pFYRhZscS75MwMnbvY+hcQ==}
+  fast-xml-parser@5.3.1:
+    resolution: {integrity: sha512-jbNkWiv2Ec1A7wuuxk0br0d0aTMUtQ4IkL+l/i1r9PRf6pLXjDgsBsWwO+UyczmQlnehi4Tbc8/KIvxGQe+I/A==}
     hasBin: true
 
   fastq@1.19.1:
@@ -2578,10 +2578,10 @@ snapshots:
     dependencies:
       prismjs: 1.30.0
 
-  '@astrojs/rss@4.0.12':
+  '@astrojs/rss@4.0.13':
     dependencies:
-      fast-xml-parser: 5.2.5
-      kleur: 4.1.5
+      fast-xml-parser: 5.3.1
+      picocolors: 1.1.1
 
   '@astrojs/solid-js@5.1.0(@types/node@24.0.10)(jiti@2.5.1)(lightningcss@1.30.1)(solid-js@1.9.8)(yaml@2.8.1)':
     dependencies:
@@ -3766,7 +3766,7 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fast-xml-parser@5.2.5:
+  fast-xml-parser@5.3.1:
     dependencies:
       strnum: 2.1.1
 
