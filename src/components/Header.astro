@@ -18,8 +18,10 @@ const ML2 = await getImage({ src: logoMobileLight, width: 256, height: 64, forma
 const MD1 = await getImage({ src: logoMobileDark,  width: 128, height: 32, format: 'webp', quality: 82 });
 const MD2 = await getImage({ src: logoMobileDark,  width: 256, height: 64, format: 'webp', quality: 82 });
 ---
-<header class="w-full">
-  <nav class="mt-2 mb-8 flex items-center justify-between gap-3 sm:gap-6 lg:gap-10 px-4 sm:px-6 lg:px-8">
+<header
+  class="w-full sticky top-0 z-40 bg-white/90 dark:bg-[#050816]/90 backdrop-blur"
+>
+  <nav class="mb-8 flex items-center justify-between gap-3 sm:gap-6 lg:gap-10 py-4 sm:px-6 lg:px-8">
     <div class="sm:hidden">
       <Hamburger />
     </div>
